@@ -1,0 +1,71 @@
+@startuml use-case
+title Диаграмма вариантов использования ИС «Учёт результатов экзаменов студентов»
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor "Администратор\n(деканат)" as Admin
+actor "Преподаватель" as Teacher
+actor "Студент" as Student
+
+rectangle "ИС «Учёт результатов экзаменов студентов»" {
+
+  ' --- Администратор ---
+  usecase "Войти\n(администратор)" as AdminLogin
+  usecase "Регистрация\nпользователей" as Register
+  usecase "Добавить пользователя" as AddUser
+  usecase "Редактировать\nданные пользователя" as EditUser
+  usecase "Удалить пользователя" as DeleteUser
+  usecase "Добавить дисциплину" as AddSubject
+  usecase "Создать экзамен\n(открыть ведомость)" as CreateExam
+  usecase "Удалить экзамен" as DeleteExam
+  usecase "Сформировать сводную\nведомость по группе" as GroupReport
+  usecase "Просмотреть список\nзадолженностей" as AdminDebts
+  usecase "Рассчитать средний балл\nстудента и группы" as AdminAvg
+
+  ' --- Преподаватель ---
+  usecase "Войти\n(преподаватель)" as TeacherLogin
+  usecase "Выставить оценку\nстуденту за экзамен" as SetGrade
+  usecase "Редактировать оценку" as EditGrade
+  usecase "Найти результаты\n(по студенту, группе\nили дисциплине)" as SearchResults
+  usecase "Просмотреть и вывести\nведомость по своему\nэкзамену" as TeacherReport
+
+  ' --- Студент ---
+  usecase "Войти\n(студент)" as StudentLogin
+  usecase "Просмотреть свои\nрезультаты экзаменов" as ViewResults
+  usecase "Просмотреть свои\nзадолженности" as ViewDebts
+  usecase "Просмотреть свой\nсредний балл" as ViewAvg
+}
+
+' Акторы и вход в систему
+Admin --> AdminLogin
+Teacher --> TeacherLogin
+Student --> StudentLogin
+
+' Функции администратора
+AdminLogin --> Register
+AdminLogin --> AddSubject
+AdminLogin --> CreateExam
+AdminLogin --> DeleteExam
+AdminLogin --> GroupReport
+AdminLogin --> AdminDebts
+AdminLogin --> AdminAvg
+
+Register --> AddUser
+Register --> EditUser
+Register --> DeleteUser
+
+' Функции преподавателя
+TeacherLogin --> SetGrade
+TeacherLogin --> EditGrade
+TeacherLogin --> SearchResults
+TeacherLogin --> TeacherReport
+
+' Функции студента
+StudentLogin --> ViewResults
+StudentLogin --> ViewDebts
+StudentLogin --> ViewAvg
+
+@enduml
