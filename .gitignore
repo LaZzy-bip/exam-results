@@ -1,2 +1,4 @@
 .vscode/
 .idea/
+sqlite.c
+sqlite.h
