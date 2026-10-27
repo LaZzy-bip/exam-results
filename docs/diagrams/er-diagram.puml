@@ -1,0 +1,91 @@
+@startuml er-diagram
+title ER-диаграмма базы данных ИС «Учёт результатов экзаменов»
+
+hide circle
+skinparam dpi 180
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam roundCorner 12
+skinparam ArrowColor #333333
+skinparam entity {
+  BorderColor #555555
+  FontColor #222222
+}
+skinparam nodesep 60
+skinparam ranksep 70
+
+
+entity "user_roles" as user_roles #FDECEC {
+  PK  user_role_id : INTEGER
+  --
+  name : TEXT
+}
+
+entity "student_groups" as student_groups #FDECEC {
+  PK  group_id : INTEGER
+  --
+  name : TEXT
+}
+
+entity "subjects" as subjects #FDECEC {
+  PK  subject_id : INTEGER
+  --
+  name : TEXT
+}
+
+
+entity "users" as users #FFF4C7 {
+  PK  user_id : INTEGER
+  --
+  login : TEXT
+  password_hash : TEXT
+  full_name : TEXT
+  FK  user_role : INTEGER
+}
+
+entity "teachers" as teachers #FFF4C7 {
+  PK  teacher_id : INTEGER
+  --
+  FK  user_id : INTEGER
+  department : TEXT
+}
+
+entity "students" as students #FFF4C7 {
+  PK  student_id : INTEGER
+  --
+  FK  user_id : INTEGER
+  FK  group_id : INTEGER
+  record_book : TEXT
+}
+
+
+entity "exams" as exams #E3F0FF {
+  PK  exam_id : INTEGER
+  --
+  FK  subject_id : INTEGER
+  FK  teacher_id : INTEGER
+  FK  group_id : INTEGER
+  exam_date : TEXT
+}
+
+entity "exam_results" as exam_results #E4F6E4 {
+  PK  result_id : INTEGER
+  --
+  FK  exam_id : INTEGER
+  FK  student_id : INTEGER
+  grade : INTEGER
+}
+
+
+user_roles     ||--o{ users        : "1:N"
+users          ||--o| teachers     : "1:1"
+users          ||--o| students     : "1:1"
+student_groups ||--o{ students     : "1:N"
+student_groups ||--o{ exams        : "1:N"
+subjects       ||--o{ exams        : "1:N"
+teachers       ||--o{ exams        : "1:N"
+exams          ||--o{ exam_results : "1:N"
+students       ||--o{ exam_results : "1:N"
+
+@enduml
