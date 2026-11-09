@@ -8,7 +8,7 @@ int main(void)
     if (db_open(&db, "exams.db") != SQLITE_OK) {
         return 1;
     }
-    if (db_init_from_file(db, "src/db/db.sql") != SQLITE_OK) {
+    if (db_init_from_file(db, "src/db/schema.sql") != SQLITE_OK) {
         db_close(db);
         return 1;
     }

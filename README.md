@@ -164,7 +164,7 @@ exam-results/
 ## Требования
 
 - [Git](https://git-scm.com/);
-- компилятор языка C, например [GCC](https://gcc.gnu.org/) (на Windows его проще получить через [MSYS2](https://www.msys2.org/)).
+- компилятор языка C: [Visual Studio](https://visualstudio.microsoft.com/) с компонентом «Разработка классических приложений на C++» (MSVC) или [GCC](https://gcc.gnu.org/) (на Windows его проще получить через [MSYS2](https://www.msys2.org/)).
 
 Библиотека SQLite подключена к проекту в виде исходных файлов `sqlite3.c` и `sqlite3.h`, отдельно устанавливать её не нужно.
 
@@ -182,21 +182,29 @@ exam-results/
    cd exam-results
    ```
 
-3. Скомпилировать программу:
+3. Скомпилировать программу.
+
+   **Visual Studio (MSVC)** — в Developer Command Prompt for VS:
+
+   ```bat, cmd
+   cl /utf-8 /Fe:exam-results.exe src\exam-results\main.c src\exam-results\db.c src\exam-results\sqlite3.c
+   ```
+
+   **GCC** (MSYS2):
 
    ```bash
    gcc -o exam-results src/exam-results/main.c src/exam-results/db.c src/exam-results/sqlite3.c
    ```
 
-   На Linux в конец команды нужно добавить `-lpthread -ldl -lm`. Сборка `sqlite3.c` занимает около минуты.
-
 4. Запустить программу из корня репозитория (путь к `src/db/schema.sql` указан относительно него):
 
-   ```bash
-   ./exam-results
-   ```
+   | Терминал | Команда |
+   |----------|---------|
+   | cmd | `exam-results.exe` |
+   | PowerShell | `.\exam-results.exe` |
+   | Git Bash | `./exam-results` |
 
-   На Windows запуск выполняется командой `exam-results.exe`.
+   Если в консоли Windows вместо русского текста видны непонятные символы, перед запуском выполните `chcp 65001`.
 
 Ожидаемый вывод:
 
