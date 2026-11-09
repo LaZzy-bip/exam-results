@@ -1,8 +1,9 @@
 .vscode/
 .idea/
-sqlite.c
-sqlite.h
-.obj
-.pdb
-.db
-.sqlite
+*.db
+*.sqlite
+*.obj
+*.pdb
+*.o
+*.exe
+/exam-results
