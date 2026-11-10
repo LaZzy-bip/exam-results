@@ -31,7 +31,7 @@ CREATE TABLE subjects (
 CREATE TABLE users (
     user_id       INTEGER PRIMARY KEY AUTOINCREMENT,
     login         TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL,
+    password_hash TEXT NOT NULL,          -- пароль, зашифрованный шифром Виженера
     full_name     TEXT NOT NULL,
     user_role     INTEGER NOT NULL,
     FOREIGN KEY (user_role)
@@ -113,14 +113,14 @@ VALUES
 
 INSERT INTO users (login, password_hash, full_name, user_role)
 VALUES
-    ('admin',    '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Деканат',                   1),
-    ('petrov',   'cde383eee8ee7a4400adf7a15f716f179a2eb97646b37e089eb8d6d04e663416', 'Петров Пётр Петрович',      2),
-    ('uchiha', 'cde383eee8ee7a4400adf7a15f716f179a2eb97646b37e089eb8d6d04e663416', 'Учиха Саске',                 2),
-    ('ivanov',   '703b0a3d6ad75b649a28adde7d83c6251da457549263bc7ff45ec709b0a8448b', 'Иванов Иван Иванович',      3),
-    ('smirnova', '703b0a3d6ad75b649a28adde7d83c6251da457549263bc7ff45ec709b0a8448b', 'Смирнова Мария Андреевна',  3),
-    ('litvin','703b0a3d6ad75b649a28adde7d83c6251da457549263bc7ff45ec709b0a8448b', 'Литвин Михаил Андреевич',      3),
-    ('lebedeva',   '703b0a3d6ad75b649a28adde7d83c6251da457549263bc7ff45ec709b0a8448b', 'Лебедева Анна Дмитриевна',3),
-    ('orlov',    '703b0a3d6ad75b649a28adde7d83c6251da457549263bc7ff45ec709b0a8448b', 'Орлов Сергей Николаевич',   3);
+    ('admin',    'eQCKxVq7', 'Деканат',                   1),
+    ('petrov',   'xR0Er8f5pT', 'Петров Пётр Петрович',      2),
+    ('uchiha', 'xR0Er8f5pT', 'Учиха Саске',                 2),
+    ('ivanov',   'wgKFoHh5pT', 'Иванов Иван Иванович',      3),
+    ('smirnova', 'wgKFoHh5pT', 'Смирнова Мария Андреевна',  3),
+    ('litvin','wgKFoHh5pT', 'Литвин Михаил Андреевич',      3),
+    ('lebedeva',   'wgKFoHh5pT', 'Лебедева Анна Дмитриевна',3),
+    ('orlov',    'wgKFoHh5pT', 'Орлов Сергей Николаевич',   3);
 
 INSERT INTO teachers (user_id, department)
 VALUES
