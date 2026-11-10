@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Список экзаменов преподавателя; возвращает их количество */
 static int show_my_exams(const Teacher *teacher)
 {
     Exam *exams = NULL;
@@ -25,7 +24,6 @@ static int show_my_exams(const Teacher *teacher)
     return n;
 }
 
-/* Выбор своего экзамена и вывод ведомости по нему; возвращает id экзамена или 0 */
 static int choose_exam_and_show(const Teacher *teacher)
 {
     int exam_id;
@@ -45,7 +43,6 @@ static int choose_exam_and_show(const Teacher *teacher)
     return exam_id;
 }
 
-/* Ввод оценки: 2–5 или 0 — «не явился» */
 static int read_grade(int *grade)
 {
     int value;
@@ -60,7 +57,6 @@ static void set_grades_form(const Teacher *teacher)
     int exam_id = choose_exam_and_show(teacher);
     if (exam_id == 0) return;
 
-    /* можно выставить оценки нескольким студентам подряд */
     while (1) {
         int student_id, grade;
         if (!read_int("\nID студента (Enter — закончить): ", &student_id)) return;
@@ -91,7 +87,6 @@ static void update_grade_form(const Teacher *teacher)
     print_success("Оценка изменена");
 }
 
-/* Группы и дисциплины, по которым у преподавателя есть экзамены (без повторов) */
 static int choose_from_my_exams(const Teacher *teacher, int by_group, int *out_id)
 {
     Exam *exams = NULL;

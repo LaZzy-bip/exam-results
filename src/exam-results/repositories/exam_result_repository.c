@@ -1,10 +1,6 @@
 #include "exam_result_repository.h"
 #include "../db.h"
 
-/*
- * Общая часть запроса: строка ведомости вместе с ФИО студента, группой,
- * дисциплиной, датой и преподавателем (служебные поля модели ExamResult).
- */
 #define SELECT_RESULT \
     "SELECT r.result_id, r.exam_id, r.student_id, r.grade, " \
     "       u.full_name, s.record_book, g.name, sub.name, e.exam_date, tu.full_name " \
@@ -21,7 +17,7 @@ static void map_row(sqlite3_stmt *st, void *item)
 {
     ExamResult *r = item;
     if (sqlite3_column_type(st, 0) == SQLITE_NULL) {
-        r->result_id = 0;                     /* строки в exam_results нет */
+        r->result_id = 0;
         r->grade = GRADE_NONE;
     } else {
         r->result_id = sqlite3_column_int(st, 0);
@@ -134,7 +130,6 @@ int exam_result_repository_search(int teacher_id, int student_id, int group_id,
 int exam_result_repository_get_statement(int exam_id, ExamResult **out)
 {
     sqlite3_stmt *st;
-    /* LEFT JOIN: студент попадает в ведомость, даже если строки с оценкой ещё нет */
     if (db_prepare(
             "SELECT r.result_id, e.exam_id, s.student_id, r.grade, "
             "       u.full_name, s.record_book, g.name, sub.name, e.exam_date, tu.full_name "

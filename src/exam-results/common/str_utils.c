@@ -15,7 +15,6 @@ void str_copy(char *dst, size_t size, const char *src)
     size_t n = strlen(src);
     if (n >= size) {
         n = size - 1;
-        /* не обрезаем русскую букву посередине: откатываемся к началу символа UTF-8 */
         while (n > 0 && ((unsigned char)src[n] & 0xC0) == 0x80) {
             n--;
         }
@@ -74,7 +73,6 @@ size_t utf8_length(const char *s)
     return len;
 }
 
-/* Читает один символ UTF-8 и возвращает его код; *s сдвигается на следующий символ. */
 static unsigned long utf8_next(const char **s)
 {
     const unsigned char *p = (const unsigned char *)*s;
@@ -99,10 +97,10 @@ static unsigned long to_lower_cp(unsigned long cp)
     if (cp >= 'A' && cp <= 'Z') {
         return cp + 32;
     }
-    if (cp >= 0x0410 && cp <= 0x042F) {   /* А..Я -> а..я */
+    if (cp >= 0x0410 && cp <= 0x042F) {
         return cp + 0x20;
     }
-    if (cp == 0x0401) {                   /* Ё -> ё */
+    if (cp == 0x0401) {
         return 0x0451;
     }
     return cp;

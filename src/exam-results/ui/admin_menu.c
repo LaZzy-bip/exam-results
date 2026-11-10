@@ -13,8 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* ==================== Пользователи ==================== */
-
 static void list_users(void)
 {
     User *users = NULL;
@@ -148,8 +146,6 @@ static void users_menu(const User *admin)
     }
 }
 
-/* ==================== Дисциплины и группы ==================== */
-
 static void add_subject_form(void)
 {
     char name[SUBJECT_LEN];
@@ -194,8 +190,6 @@ static void catalog_menu(void)
         else print_error("Нет такого пункта меню");
     }
 }
-
-/* ==================== Экзамены ==================== */
 
 static void list_exams(void)
 {
@@ -295,9 +289,6 @@ static void exams_menu(void)
     }
 }
 
-/* ==================== Отчёты ==================== */
-
-/* Ищет оценку студента за экзамен в сводном списке */
 static int find_grade(const ExamResult *results, int n, int student_id, int exam_id)
 {
     for (int i = 0; i < n; i++) {
@@ -308,7 +299,6 @@ static int find_grade(const ExamResult *results, int n, int student_id, int exam
     return GRADE_NONE;
 }
 
-/* Сводная ведомость: строки — студенты группы, столбцы — экзамены группы */
 static void group_summary_view(void)
 {
     int group_id;
@@ -425,8 +415,6 @@ static void average_view(void)
         printf("Средний балл: %.2f (учтено оценок: %d)\n", avg, count);
     }
 }
-
-/* ==================== Главное меню ==================== */
 
 void admin_menu(const User *user)
 {

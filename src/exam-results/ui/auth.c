@@ -25,7 +25,6 @@ int login(User *out)
     return 1;
 }
 
-/* Общие поля учётной записи */
 static int read_account(char *login_value, size_t login_size,
                         char *password, size_t password_size,
                         char *full_name, size_t name_size)

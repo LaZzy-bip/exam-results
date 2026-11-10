@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* ---------- дисциплины ---------- */
-
 int create_subject(const char *name, char *err)
 {
     if (str_is_blank(name)) {
@@ -18,7 +16,6 @@ int create_subject(const char *name, char *err)
         return service_fail(err, "Слишком длинное название дисциплины");
     }
 
-    /* поиск дубликата без учёта регистра: «история» и «История» — одна дисциплина */
     Subject *subjects = NULL;
     int n = subject_repository_get_all(&subjects);
     if (n < 0) {
@@ -50,8 +47,6 @@ int get_subject(int subject_id, Subject *out, char *err)
     if (found == 0) return service_fail(err, "Дисциплина не найдена");
     return SERVICE_OK;
 }
-
-/* ---------- группы ---------- */
 
 int create_group(const char *name, char *err)
 {

@@ -1,17 +1,3 @@
-/*
- * ИС «Учёт результатов экзаменов студентов» — точка входа.
- *
- * Слои приложения:
- *   ui/           — консольный интерфейс (меню, ввод и вывод)
- *   services/     — бизнес-логика (проверки, права доступа, расчёты)
- *   repositories/ — доступ к данным (все SQL-запросы)
- *   models/       — модели данных (структуры, соответствующие таблицам)
- *   db.c          — подключение к SQLite
- *
- * Запуск из корня репозитория:
- *   exam-results.exe           — открыть базу (создаётся при первом запуске)
- *   exam-results.exe --reset   — пересоздать базу из schema.sql с тестовыми данными
- */
 #include <stdio.h>
 #include <string.h>
 
@@ -70,7 +56,6 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        /* разграничение доступа: каждая роль получает своё меню */
         switch (user.user_role) {
         case ROLE_ADMIN:   admin_menu(&user);   break;
         case ROLE_TEACHER: teacher_menu(&user); break;

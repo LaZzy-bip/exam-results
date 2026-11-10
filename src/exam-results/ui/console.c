@@ -12,17 +12,14 @@ void console_init(void)
 {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
-    /* буферизация, чтобы русские буквы (2 байта) не разрывались при выводе */
     setvbuf(stdout, NULL, _IOFBF, 8192);
 }
 
-/* Чтение строки, когда ввод перенаправлен из файла: exam-results.exe < input.txt */
 static int read_line_from_file(char *buf, size_t size)
 {
     if (fgets(buf, (int)size, stdin) == NULL) {
         return 0;
     }
-    /* если строка не поместилась в буфер, дочитываем остаток, чтобы он не попал в следующий ввод */
     if (strchr(buf, '\n') == NULL) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF) {
@@ -46,14 +43,13 @@ int read_line(const char *prompt, char *buf, size_t size)
         return read_line_from_file(buf, size);
     }
 
-    /* В консоли Windows русский ввод корректно читается только через ReadConsoleW */
     wchar_t wbuf[512];
     DWORD chars_read = 0;
     if (!ReadConsoleW(in, wbuf, 511, &chars_read, NULL) || chars_read == 0) {
         return 0;
     }
     wbuf[chars_read] = L'\0';
-    if (wbuf[0] == 26) {          /* Ctrl+Z — конец ввода */
+    if (wbuf[0] == 26) {
         return 0;
     }
     WideCharToMultiByte(CP_UTF8, 0, wbuf, -1, buf, (int)size, NULL, NULL);
@@ -99,7 +95,6 @@ void print_cell(const char *text, int width)
             putchar(' ');
         }
     } else {
-        /* обрезаем по символам UTF-8 и ставим многоточие */
         int chars = 0;
         const char *p = text;
         while (*p && chars < width - 1) {

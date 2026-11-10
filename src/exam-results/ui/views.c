@@ -92,7 +92,6 @@ void print_users(const User *users, int n)
         Teacher teacher;
         Student student;
 
-        /* дополнительные сведения из профиля преподавателя или студента */
         if (get_teacher_by_user(users[i].user_id, &teacher, NULL) == 0) {
             snprintf(extra, sizeof extra, "%s", teacher.department);
         } else if (get_student_by_user(users[i].user_id, &student, NULL) == 0) {

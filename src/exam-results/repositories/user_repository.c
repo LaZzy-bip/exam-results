@@ -1,7 +1,6 @@
 #include "user_repository.h"
 #include "../db.h"
 
-/* Название роли подтягивается из справочника user_roles через JOIN */
 #define SELECT_USER \
     "SELECT u.user_id, u.login, u.password_hash, u.full_name, u.user_role, r.name " \
     "FROM users u " \

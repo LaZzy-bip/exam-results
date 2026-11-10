@@ -19,8 +19,6 @@
 #define MIN_PASSWORD_LEN 6
 #define MAX_PASSWORD_LEN 32
 
-/* ---------- проверки данных ---------- */
-
 static int validate_login(const char *login, int except_user_id, char *err)
 {
     if (str_is_blank(login)) {
@@ -51,7 +49,6 @@ static int validate_password(const char *password, char *err)
     if (len < MIN_PASSWORD_LEN || len > MAX_PASSWORD_LEN) {
         return service_fail(err, "Длина пароля — от 6 до 32 символов");
     }
-    /* шифр работает только с латинскими буквами и цифрами */
     if (!is_cipher_alphabet(password)) {
         return service_fail(err, "Пароль может содержать только латинские буквы и цифры");
     }
@@ -111,8 +108,6 @@ static int validate_new_user(const char *login, const char *password,
     return SERVICE_OK;
 }
 
-/* ---------- регистрация ---------- */
-
 int register_teacher(const char *login, const char *password, const char *full_name,
                      const char *department, char *err)
 {
@@ -126,7 +121,6 @@ int register_teacher(const char *login, const char *password, const char *full_n
     char encrypted[PASSWORD_LEN];
     encrypt_password(password, encrypted, sizeof encrypted);
 
-    /* users и teachers заполняются вместе: если второй INSERT не пройдёт, откатываем первый */
     db_begin();
     int user_id = user_repository_create(login, encrypted, full_name, ROLE_TEACHER);
     if (user_id < 0 || teacher_repository_create(user_id, department) < 0) {
@@ -156,8 +150,6 @@ int register_student(const char *login, const char *password, const char *full_n
     db_commit();
     return SERVICE_OK;
 }
-
-/* ---------- чтение ---------- */
 
 int get_all_users(User **out)
 {
@@ -203,9 +195,6 @@ int get_students_by_group(int group_id, Student **out)
     return student_repository_get_by_group(group_id, out);
 }
 
-/* ---------- изменение ---------- */
-
-/* Редактировать через меню можно только преподавателей и студентов */
 static int load_editable_user(int user_id, User *user, char *err)
 {
     if (get_user(user_id, user, err) != SERVICE_OK) {
@@ -257,7 +246,7 @@ int update_teacher_department(int user_id, const char *department, char *err)
         return SERVICE_ERROR;
     }
     if (str_is_blank(department)) {
-        return SERVICE_OK; /* оставить прежнюю кафедру */
+        return SERVICE_OK;
     }
     if (strlen(department) >= DEPARTMENT_LEN) {
         return service_fail(err, "Слишком длинное название кафедры");
@@ -286,8 +275,6 @@ int update_student_profile(int user_id, int new_group_id, const char *new_record
     }
     return SERVICE_OK;
 }
-
-/* ---------- удаление ---------- */
 
 int check_user_deletable(int user_id, int current_user_id, char *err)
 {
@@ -326,7 +313,6 @@ int delete_user(int user_id, int current_user_id, char *err)
         return SERVICE_ERROR;
     }
 
-    /* профиль в teachers / students и оценки студента удалятся каскадно (ON DELETE CASCADE) */
     if (user_repository_delete(user_id) != 0) {
         return service_fail(err, "Не удалось удалить пользователя");
     }

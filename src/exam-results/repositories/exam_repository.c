@@ -1,7 +1,6 @@
 #include "exam_repository.h"
 #include "../db.h"
 
-/* Названия дисциплины, группы и ФИО преподавателя подтягиваются через JOIN */
 #define SELECT_EXAM \
     "SELECT e.exam_id, e.subject_id, e.teacher_id, e.group_id, e.exam_date, " \
     "       sub.name, tu.full_name, g.name " \

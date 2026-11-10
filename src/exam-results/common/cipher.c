@@ -9,10 +9,8 @@ static const char ALPHABET[] =
 
 #define ALPHABET_SIZE 62
 
-/* Ключ шифра. Буквы ключа задают величину сдвига: 'A' — 0, 'B' — 1, ... */
 static const char KEY[] = "ExamKey";
 
-/* Номер символа в алфавите или -1, если такого символа в алфавите нет */
 static int index_of(char c)
 {
     if (c == '\0') {
@@ -32,7 +30,6 @@ int is_cipher_alphabet(const char *text)
     return 1;
 }
 
-/* direction = +1 — шифрование, -1 — расшифровка */
 static int transform(const char *text, char *out, size_t size, int direction)
 {
     size_t len = strlen(text);
@@ -48,7 +45,6 @@ static int transform(const char *text, char *out, size_t size, int direction)
             return 0;
         }
         int shift = index_of(KEY[i % key_len]);
-        /* + ALPHABET_SIZE, чтобы при расшифровке остаток не стал отрицательным */
         int moved = (c + direction * shift + ALPHABET_SIZE) % ALPHABET_SIZE;
         out[i] = ALPHABET[moved];
     }

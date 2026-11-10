@@ -18,11 +18,9 @@ int authenticate(const char *login, const char *password, User *out, char *err)
         return service_fail(err, "Ошибка базы данных");
     }
 
-    /* пароль с недопустимыми символами зашифровать нельзя — значит, он точно неверный */
     char encrypted[PASSWORD_LEN];
     int ok = encrypt_password(password, encrypted, sizeof encrypted);
 
-    /* одинаковое сообщение, чтобы нельзя было подобрать существующий логин */
     if (found == 0 || !ok || strcmp(user.password_hash, encrypted) != 0) {
         return service_fail(err, "Неверный логин или пароль");
     }

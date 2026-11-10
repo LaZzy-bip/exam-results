@@ -53,7 +53,6 @@ int create_exam(int subject_id, int group_id, int teacher_id, const char *exam_d
         return service_fail(err, "Неверная дата. Формат: ГГГГ-ММ-ДД, например 2027-01-21");
     }
 
-    /* у группы не может быть двух экзаменов в один день */
     Exam *exams = NULL;
     int n = exam_repository_get_by_group(group_id, &exams);
     if (n < 0) {
