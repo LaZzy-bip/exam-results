@@ -8,6 +8,7 @@
 #include "../services/catalog_service.h"
 #include "../services/exam_service.h"
 #include "../services/result_service.h"
+#include "../services/export_service.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -416,6 +417,21 @@ static void average_view(void)
     }
 }
 
+static void export_view(void)
+{
+    char err[ERR_LEN];
+    int count = 0;
+
+    if (export_students(&count, err) != SERVICE_OK) {
+        print_error(err);
+        return;
+    }
+    printf("Выгружено записей: %d\n", count);
+    printf("Файлы: " EXPORT_DIR "/data.json, " EXPORT_DIR "/data.csv, "
+           EXPORT_DIR "/data.xml, " EXPORT_DIR "/data.yaml\n");
+    print_success("Экспорт студентов выполнен");
+}
+
 void admin_menu(const User *user)
 {
     char choice[16];
@@ -430,6 +446,7 @@ void admin_menu(const User *user)
         printf("4. Сводная ведомость по группе\n");
         printf("5. Задолженности\n");
         printf("6. Средний балл\n");
+        printf("7. Экспорт студентов (JSON, CSV, XML, YAML)\n");
         printf("0. Выйти из учётной записи\n");
         if (!read_line("Выберите действие: ", choice, sizeof choice)) return;
 
@@ -439,6 +456,7 @@ void admin_menu(const User *user)
         else if (strcmp(choice, "4") == 0) group_summary_view();
         else if (strcmp(choice, "5") == 0) debts_view();
         else if (strcmp(choice, "6") == 0) average_view();
+        else if (strcmp(choice, "7") == 0) export_view();
         else if (strcmp(choice, "0") == 0) return;
         else print_error("Нет такого пункта меню");
     }

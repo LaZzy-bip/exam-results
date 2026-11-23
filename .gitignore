@@ -6,3 +6,4 @@
 *.pdb
 *.o
 *.exe
+out/
